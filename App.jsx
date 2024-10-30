@@ -33,24 +33,43 @@
 // npm install redux react-redux redux-thunk
 
 
+// import React from 'react';
+// import { Provider } from 'react-redux';
+// import { View } from 'react-native';
+// import store from './store';
+// import Counter from './components/Counter';
+// import CounterTheme from './components/CounterTheme';
+// import TaskList from './components/TaskList';
+
+// const App = () => {
+//   return (
+//     <Provider store={store}>
+//       <View style={{ flex: 1, justifyContent: 'center' }}>
+//         {/* <Counter /> */}
+//         {/* <CounterTheme/> */}
+//         <TaskList/>
+
+//       {/* <PostList/> */}
+//       </View>
+//     </Provider>
+//   );
+// };
+
+// export default App;
+
+
 import React from 'react';
 import { Provider } from 'react-redux';
-import { View } from 'react-native';
+import DataDisplay from './components/DataDisplay';
 import store from './store';
-import Counter from './components/Counter';
-import CounterTheme from './components/CounterTheme';
-import TaskList from './components/TaskList';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <View style={{ flex: 1, justifyContent: 'center' }}>
-        <Counter />
-        {/* <CounterTheme/> */}
-        {/* <TaskList/> */}
-      </View>
+      <DataDisplay />
     </Provider>
   );
 };
 
 export default App;
+

@@ -8,17 +8,16 @@ import {name as appName} from './app.json';
 
 AppRegistry.registerComponent(appName, () => App);
 
-
 // import React from 'react';
+// import ReactDOM from 'react-dom/client';
 // import { Provider } from 'react-redux';
-// import { AppRegistry } from 'react-native';
+// import './index.css';
 // import App from './App';
 // import store from './store';
 
-// const RNRedux = () => (
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
 //   <Provider store={store}>
 //     <App />
 //   </Provider>
 // );
-
-// AppRegistry.registerComponent('CounterApp', () => RNRedux);

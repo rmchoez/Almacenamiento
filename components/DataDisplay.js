@@ -26,13 +26,13 @@ const DataDisplay = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Results API</Text>
+      <Text style={styles.title}>Results API </Text>
       <FlatList
         data={items}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.item} onPress={() => openModal(item)}>
-            <Text style={styles.itemTitle}>{item.title}</Text>
+            <Text style={styles.itemTitle}>{item.id} {item.title}</Text>
           </TouchableOpacity>
         )}
       />
@@ -115,10 +115,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 15,
+    color: 'black',
   },
   modalText: {
     fontSize: 16,
     marginBottom: 10,
+    color:'blue'
   },
 });
 

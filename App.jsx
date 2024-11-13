@@ -1,75 +1,29 @@
-// // App.js
-// import React from 'react';
-// import { View,Text } from 'react-native';
-// import InicialStyle from './InicialStyle'; // Importa el componente
-// import Metodos from './Metodos';
-// import TaskManager from './TaskManager';
-// import Inicial from './Inicial';
-// import SimuladorCredito from './Simulador';
-// import FileApp from './FileApp';
-// import FileHandling from './FileHandling';
-// import DownloadImage from './DownloadImage';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import LoginScreen from './screens/LoginScreen';
+import HomeScreen from './screens/HomeScreen';
+
+import UserScreen from './screens/UserScreen';
+import TodoScreen from './screens/TodoScreen';
+import UserDetailScreen from './screens/UserDetailScreen'; // Importa UserDetailScreen
+import SQLiteScreen from './screens/SQLiteScreen';
+import RxdbUsersScreen from './screens/RxdbUsersScreen';
 
 
-// const App = () => {
-//   return (
-//     <View style={{ flex: 1 }}>
-//       {/* <Inicial></Inicial> */}
-//       {/* <InicialStyle></InicialStyle> */}
-//       {/* <Metodos></Metodos> */}
-//       {/* <TaskManager></TaskManager> */}
-//       {/* <SimuladorCredito></SimuladorCredito> */}
-   
-//       {/* <FileApp></FileApp> */}
-//       <FileHandling></FileHandling>
-//       {/* <DownloadImage></DownloadImage> */}
-//     </View>
-//   );
-// };
+const Stack = createNativeStackNavigator();
 
-// export default App;
+const StackNavigator = () => (
+  <NavigationContainer>
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Users" component={UserScreen} />
+      <Stack.Screen name="Todo" component={TodoScreen} />
+      <Stack.Screen name="UserDetailScreen" component={UserDetailScreen} />
+      <Stack.Screen name="SQLite" component={SQLiteScreen} />
+      <Stack.Screen name="RxdbUsersScreen" component={RxdbUsersScreen} options={{ title: 'Usuarios Guardados' }} />
+    </Stack.Navigator>
+  </NavigationContainer>
+);
 
-
-// npm install redux react-redux redux-thunk
-
-
-// import React from 'react';
-// import { Provider } from 'react-redux';
-// import { View } from 'react-native';
-// import store from './store';
-// import Counter from './components/Counter';
-// import CounterTheme from './components/CounterTheme';
-// import TaskList from './components/TaskList';
-
-// const App = () => {
-//   return (
-//     <Provider store={store}>
-//       <View style={{ flex: 1, justifyContent: 'center' }}>
-//         {/* <Counter /> */}
-//         {/* <CounterTheme/> */}
-//         <TaskList/>
-
-//       {/* <PostList/> */}
-//       </View>
-//     </Provider>
-//   );
-// };
-
-// export default App;
-
-
-import React from 'react';
-import { Provider } from 'react-redux';
-import DataDisplay from './components/DataDisplay';
-import store from './store';
-
-const App = () => {
-  return (
-    <Provider store={store}>
-      <DataDisplay />
-    </Provider>
-  );
-};
-
-export default App;
-
+export default StackNavigator;

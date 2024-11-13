@@ -4,6 +4,8 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import initializeDB, { userCollectionName } from '../database/rxdb';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
+import uuid from 'react-native-uuid';
 
 const UserScreen = () => {
   const [db, setDb] = useState(null);  // Estado local para almacenar la DB
@@ -23,6 +25,18 @@ const UserScreen = () => {
   useEffect(() => {
     fetchUsers();
     startDotsAnimation();
+  }, []);
+
+  useEffect(() => {
+    const initializeDatabase = async () => {
+      try {
+        const DB = await initializeDB();
+        setDb(DB);
+      } catch (error) {
+        console.error('Error inicializando la base de datos:', error);
+      }
+    };
+    initializeDatabase();
   }, []);
 
   const fetchUsers = async () => {
@@ -49,17 +63,37 @@ const UserScreen = () => {
 
   const handleSaveSelected = async () => {
     try {
-      const DB = await initializeDB();
-      setDb(DB);
-      const usersToSave = users.filter(user => selectedUsers.includes(user.id));
-
+   
+      const usersToSave = users
+      .filter(user => selectedUsers.includes(user.id))
+      .map(user => ({
+        ...user,
+        uuid: uuid.v4(),  // Genera un UUID como string
+      }));
+     
+      console.log('Inicia Proceso de guardar....')
 
       if (db) {
-        await db[userCollectionName].insert(usersToSave);
+        await db[userCollectionName].bulkInsert(usersToSave); // bulkInsert para manejar múltiples
         console.log("Usuarios guardados en RxDB");
+        showMessage({
+          message: 'Usuarios guardados con éxito!',
+          type: 'success',
+          backgroundColor: 'green', // Color verde para éxito
+        });
+        setSelectedUsers([]); // Limpia la selección
+        fetchUsers();
+      }
+      else{
+        console.log("No hay base de datos")
       }
     } catch (error) {
-      console.log("Error guardando usuarios en RxDB:", error);
+      console.log("Error guardando usersToSave en RxDB:", error);
+      showMessage({
+        message: 'Error al guardar usuarios: ${String(error)}',
+        type: 'danger',
+        backgroundColor: 'red', // Color rojo para error
+      });
     }
   };
 

@@ -8,31 +8,42 @@ const HomeScreen = ({ navigation }) => {
       <Text style={styles.headerText}>Bienvenidos a Home Screen!</Text>
       <View style={styles.buttonContainer}>
         <View style={styles.buttonRow}>
-          <TouchableOpacity 
-            style={styles.buttonWrapper} 
+          <TouchableOpacity
+            style={styles.buttonWrapper}
             onPress={() => navigation.navigate('Users')}
           >
             <Icon name="group" size={30} color="white" />
             <Text style={styles.buttonText}>Users</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.buttonWrapper} 
+          <TouchableOpacity
+            style={styles.buttonWrapper}
             onPress={() => navigation.navigate('Todo')}
           >
             <Icon name="check-box" size={30} color="white" />
             <Text style={styles.buttonText}>Todo</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.buttonWrapper} 
+          <TouchableOpacity
+            style={styles.buttonWrapper}
             onPress={() => navigation.navigate('SQLite')}
           >
             <Icon name="storage" size={30} color="white" />
             <Text style={styles.buttonText}>SQLite</Text>
           </TouchableOpacity>
+          
+
+       
         </View>
         <View style={styles.buttonRow}>
-          <TouchableOpacity 
-            style={styles.buttonWrapper} 
+        <TouchableOpacity
+            style={styles.buttonWrapper}
+            onPress={() => navigation.navigate('NativeStyle')}
+          >
+            <Icon name="palette" size={30} color="white" />
+            <Text style={styles.buttonText}>Native Style</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.buttonWrapper}
             onPress={() => navigation.navigate('RxdbUsersScreen')}
           >
             <Icon name="cloud" size={30} color="white" />
@@ -50,7 +61,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
-   
+
   },
   headerText: {
     textAlign: 'center',

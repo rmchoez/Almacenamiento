@@ -31,7 +31,7 @@ const RxdbUsersScreen = () => {
     <View style={styles.container}>
       <FlatList
         data={rxdbUsers}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item?.id?.toString()}
         renderItem={({ item }) => (
           <View style={styles.userCard}>
             <Text style={styles.userName}>{item.firstName} {item.lastName}</Text>

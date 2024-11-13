@@ -3,11 +3,16 @@ export const UserSchema = {
   version: 0,
   description: "Schema for user details from API",
   type: "object",
-  primaryKey: 'id', // <= the primary key is must
+  primaryKey: 'uuid', // <= the primary key is must
   properties: {
-    id: {   type: 'string',
-      maxLength: 100, // <- the primary key must have set maxLength 
-      },
+    uuid: {
+      type: "string",
+      maxLength: 100, // Para cumplir con las restricciones de RxDB
+    },
+    id: { // Campo `id` de la API sin cambios
+      type: "number",
+      minimum: 1,
+    },
     firstName: { type: "string" },
     lastName: { type: "string" },
     maidenName: { type: "string" },

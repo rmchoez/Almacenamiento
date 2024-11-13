@@ -4,6 +4,7 @@ import { getRxStorageMemory } from 'rxdb/plugins/memory';
 import { RxDBMigrationPlugin } from 'rxdb/plugins/migration';
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder';
 import { RxDBUpdatePlugin } from 'rxdb/plugins/update';
+import uuid from 'react-native-uuid';
 
 addRxPlugin(RxDBMigrationPlugin);
 addRxPlugin(RxDBUpdatePlugin);
@@ -47,12 +48,8 @@ const initializeDB = async () => {
     
     await dbInstance.addCollections({
       [todoCollectionName]: { schema: TodoSchema },
-    });
-
-    await dbInstance.addCollections({
       [userCollectionName]: { schema: UserSchema },
     });
-
  
 
     console.log('Colecciones creadas: TodoList y Users');
@@ -66,7 +63,8 @@ const initializeDB = async () => {
     });
 
     await dbInstance[userCollectionName].insert({
-      id: `${Date.now()}`,
+      uuid: uuid.v4(), // Genera un UUID único
+      id: 900,
       firstName: 'Richard',
       lastName: 'Choez',
       email: 'rmchoez@gmail.com',

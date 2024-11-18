@@ -13,15 +13,27 @@ const HomeScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('Users')}
           >
             <Icon name="group" size={30} color="white" />
-            <Text style={styles.buttonText}>Users</Text>
+            <Text style={styles.buttonText}>Usuarios</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonWrapper}
+            onPress={() => navigation.navigate('Products')}
+          >
+            <Icon name="shopping-bag" size={30} color="white" />
+            <Text style={styles.buttonText}>Productos</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.buttonWrapper}
             onPress={() => navigation.navigate('Todo')}
           >
             <Icon name="check-box" size={30} color="white" />
-            <Text style={styles.buttonText}>Todo</Text>
+            <Text style={styles.buttonText}>Lista de Tareas</Text>
           </TouchableOpacity>
+          
+
+       
+        </View>
+        <View style={styles.buttonRow}>
           <TouchableOpacity
             style={styles.buttonWrapper}
             onPress={() => navigation.navigate('SQLite')}
@@ -29,17 +41,12 @@ const HomeScreen = ({ navigation }) => {
             <Icon name="storage" size={30} color="white" />
             <Text style={styles.buttonText}>SQLite</Text>
           </TouchableOpacity>
-          
-
-       
-        </View>
-        <View style={styles.buttonRow}>
         <TouchableOpacity
             style={styles.buttonWrapper}
             onPress={() => navigation.navigate('NativeStyle')}
           >
             <Icon name="palette" size={30} color="white" />
-            <Text style={styles.buttonText}>Native Style</Text>
+            <Text style={styles.buttonText}>Estilos Native</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -47,7 +54,7 @@ const HomeScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('RxdbUsersScreen')}
           >
             <Icon name="cloud" size={30} color="white" />
-            <Text style={styles.buttonText}>RxdbUsersScreen</Text>
+            <Text style={styles.buttonText}>Rxdb Pantalla de Productos</Text>
           </TouchableOpacity>
         </View>
       </View>

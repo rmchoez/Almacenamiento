@@ -1,44 +1,87 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet, TouchableOpacity, Modal, ActivityIndicator } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
+import initializeDB, { userCollectionName } from '../database/rxdb';
 
 const LoginScreen = ({ navigation }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Estado para el loader
+  const [db, setDb] = useState(null);  // Estado local para almacenar la DB
+
+  useEffect(() => {
+    const initDB = async () => {
+      try {
+        const DB = await initializeDB();  // Inicializa la base de datos
+        setDb(DB);  // Guarda el db cuando se inicializa
+      } catch (error) {
+        console.log('Error inicializando la BD:', error);
+      }
+    };
+
+    initDB();
+  }, []);
+
+  const buscarUsuarioRx = async ({username, password}) => {
+    try {
+      if (!db) throw new Error('Base de datos no inicializada');
+      return await db[userCollectionName].findOne({
+        selector: {
+          $and: [
+            { username: {$eq: username} },
+            { password: {$eq: password} }
+          ]
+        }
+      }).exec();
+    }catch (error) {
+      throw new Error(error);
+    }
+  }
 
   const showAlert = (type, message) => {
     let title = '';
     switch (type) {
       case 'success':
-        title = 'Success';
+        title = 'Exito';
         break;
       case 'error':
         title = 'Error';
         break;
       default:
-        title = 'Alert';
+        title = 'Alerta';
     }
     Alert.alert(title, message, [{ text: 'OK' }]);
   };
 
+  const revisarLogin = async (values) => {
+    try {
+      const response = await axios.post('https://dummyjson.com/user/login', values);
+      const result = response.data;
+      return !!result.accessToken;
+    } catch (error) {
+      throw new Error(error.response?.data?.message);
+    }
+  }
+
   const handleLogin = async (values) => {
     setIsLoading(true); // Mostrar loader al inicio de la llamada
     try {
-      const response = await axios.post('https://dummyjson.com/auth/login', values);
-      const result = response.data;
-      console.log('result')
-      if (result.accessToken) {
-        showAlert('success', 'Login successful');
+      const userRx = await buscarUsuarioRx(values);
+      if (!!userRx || await revisarLogin(values)) {
+        showAlert('success', 'Inicio de Sesion Exitoso');
         navigation.navigate('Home');
       } else {
-        showAlert('warning', 'Invalid credentials');
+        showAlert('warning', 'Credenciales Invalidas');
       }
-    } catch (error) {
-      console.error(error);
-      showAlert('error', `Failed to login: ${error.message}`);
+    } catch (error) { 
+      if (error.message === 'Invalid credentials') {
+        showAlert('warning', 'Credenciales Invalidas');
+      } else {
+        console.error(error);
+        showAlert('error', `Fallo al iniciar sesion: ${error.message}`);
+      }
     } finally {
       setIsLoading(false); // Ocultar loader después de la respuesta
     }
@@ -84,7 +127,7 @@ const LoginScreen = ({ navigation }) => {
 
               <View style={styles.passwordContainer}>
                 <TextInput
-                  placeholder="Password"
+                  placeholder="Contraseña"
                   placeholderTextColor={'gray'}
                   secureTextEntry={!passwordVisible}
                   value={values.password}
@@ -105,7 +148,7 @@ const LoginScreen = ({ navigation }) => {
               )}
 
               <Button
-                title="Login"
+                title="Iniciar Sesion"
                 onPress={handleSubmit}
                 color="#6200ea"
               />

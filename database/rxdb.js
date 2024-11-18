@@ -12,11 +12,13 @@ addRxPlugin(RxDBQueryBuilderPlugin);
 
 import { TodoSchema } from '../schema/TodoSchema';
 import { UserSchema } from '../schema/UserSchema';
+import { ProductSchema } from '../schema/ProductSchema';
 
 export const STORAGE = getRxStorageMemory();
 const dbName = 'todosreactdatabase';
 export const todoCollectionName = 'todo';
 export const userCollectionName = 'user';
+export const productCollectionName = 'product';
 
 const isDevelopment =
   process.env.NODE_ENV !== 'production' || process.env.DEBUG_PROD === 'true';
@@ -49,6 +51,7 @@ const initializeDB = async () => {
     await dbInstance.addCollections({
       [todoCollectionName]: { schema: TodoSchema },
       [userCollectionName]: { schema: UserSchema },
+      [productCollectionName]: { schema: ProductSchema },
     });
  
 
@@ -70,6 +73,15 @@ const initializeDB = async () => {
       email: 'rmchoez@gmail.com',
       phone: '+81 965-431-3024',
     });
+
+    await dbInstance[productCollectionName].insert({
+      uuid: uuid.v4(), // Genera un UUID único
+      id: 900,
+      title: 'Coca Cola',
+      price: 2500,
+      description: 'Coca Cola 1.5L',
+      category: 'Bebidas',
+    })
   } catch (err) {
     console.log('ERROR CREATING DATABASE', err);
   }

@@ -21,15 +21,7 @@ const HomeScreen = ({ navigation }) => {
           >
             <Icon name="check-box" size={30} color="white" />
             <Text style={styles.buttonText}>Todo</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonWrapper}
-            onPress={() => navigation.navigate('SQLite')}
-          >
-            <Icon name="storage" size={30} color="white" />
-            <Text style={styles.buttonText}>SQLite</Text>
-          </TouchableOpacity>
-          
+          </TouchableOpacity>         
 
        
         </View>
@@ -48,6 +40,14 @@ const HomeScreen = ({ navigation }) => {
           >
             <Icon name="cloud" size={30} color="white" />
             <Text style={styles.buttonText}>RxdbUsersScreen</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+            style={styles.buttonWrapper}
+            onPress={() => navigation.navigate('Carts')}
+          >
+            <Icon name="shopping-cart" size={30} color="white" />
+            <Text style={styles.buttonText}>Carts</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -1,13 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet, TouchableOpacity, Modal, ActivityIndicator } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
+import initializeDB, { userCollectionName } from '../database/rxdb';
 
 const LoginScreen = ({ navigation }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Estado para el loader
+  const [db, setDb] = useState(null);
+
+  useEffect(() => {
+    const initDB = async () => {
+        console.log('Iniciando base de datos...');
+    
+        try {
+          const DB = await initializeDB();
+          
+          // Verifica si la base de datos fue inicializada correctamente
+          //console.log('Base de datos inicializada:', DB);
+    
+          // Si la base de datos fue inicializada correctamente, establece el estado
+          setDb(DB);
+        } catch (error) {
+          console.error('Error al inicializar la base de datos:', error);
+          setDb(null); // Asegúrate de que el estado se maneje correctamente en caso de error
+        }
+      };
+    initDB();
+    
+  }, []);
 
   const showAlert = (type, message) => {
     let title = '';
@@ -23,14 +46,32 @@ const LoginScreen = ({ navigation }) => {
     }
     Alert.alert(title, message, [{ text: 'OK' }]);
   };
+  const buscarUsuaruarioAPI = async(values) => {
+    
+    const response = await axios.post('https://dummyjson.com/auth/login', values);
+    const result = response.data;
+    return !!result.accessToken
+  }
 
   const handleLogin = async (values) => {
     setIsLoading(true); // Mostrar loader al inicio de la llamada
     try {
-      const response = await axios.post('https://dummyjson.com/auth/login', values);
-      const result = response.data;
-      console.log('result')
-      if (result.accessToken) {
+      let user = null;
+      const userCollection = db[userCollectionName];
+      if (userCollection) {
+        // Asegúrate de que la consulta sea correcta
+        user = await userCollection
+          .findOne({
+            selector: {
+              username: { $eq: values.username },
+              password: { $eq: values.password },
+            },
+          })
+          .exec();
+      }
+      console.log('result', user);
+      
+      if (user || await buscarUsuarioAPI(values)) {
         showAlert('success', 'Login successful');
         navigation.navigate('Home');
       } else {
@@ -43,6 +84,7 @@ const LoginScreen = ({ navigation }) => {
       setIsLoading(false); // Ocultar loader después de la respuesta
     }
   };
+  
 
   return (
     <View style={styles.container}>

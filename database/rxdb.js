@@ -12,11 +12,14 @@ addRxPlugin(RxDBQueryBuilderPlugin);
 
 import { TodoSchema } from '../schema/TodoSchema';
 import { UserSchema } from '../schema/UserSchema';
+import { CartSchema } from '../schema/CartsSchema';
+
 
 export const STORAGE = getRxStorageMemory();
 const dbName = 'todosreactdatabase';
 export const todoCollectionName = 'todo';
 export const userCollectionName = 'user';
+export const cartsCollectionName = 'carts';
 
 const isDevelopment =
   process.env.NODE_ENV !== 'production' || process.env.DEBUG_PROD === 'true';
@@ -49,6 +52,7 @@ const initializeDB = async () => {
     await dbInstance.addCollections({
       [todoCollectionName]: { schema: TodoSchema },
       [userCollectionName]: { schema: UserSchema },
+      [cartsCollectionName]:{schema:CartSchema},
     });
  
 
